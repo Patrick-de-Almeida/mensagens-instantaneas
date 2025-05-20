@@ -1,0 +1,94 @@
+2025-05-15 21:50:16 [info]: Conexão com o banco de dados estabelecida com sucesso
+2025-05-15 21:50:16 [info]: Biblioteca de chat inicializada com sucesso
+2025-05-15 21:50:16 [info]: === INICIANDO EXEMPLO DE USO DA BIBLIOTECA ===
+2025-05-15 21:50:16 [info]: 1. Criando usuários...
+2025-05-15 21:50:16 [info]: Usuário criado com sucesso: joao123
+2025-05-15 21:50:16 [info]: Usuário criado com sucesso: maria456
+2025-05-15 21:50:16 [info]: Usuário criado com sucesso: carlos789
+2025-05-15 21:50:16 [info]: Usuários criados com sucesso: joao123, maria456, carlos789
+2025-05-15 21:50:16 [info]: 2. Atualizando status dos usuários...
+2025-05-15 21:50:16 [info]: Status do usuário joao123 atualizado para: online
+2025-05-15 21:50:16 [info]: Status do usuário maria456 atualizado para: online
+2025-05-15 21:50:16 [info]: Status dos usuários atualizados
+2025-05-15 21:50:16 [info]: 3. Criando chat individual...
+2025-05-15 21:50:16 [info]: Chat individual criado com sucesso
+2025-05-15 21:50:16 [info]: Chat individual criado: 68268bc8a6d2403fa3a6362a
+2025-05-15 21:50:16 [info]: 4. Criando chat em grupo...
+2025-05-15 21:50:16 [info]: Chat em grupo criado com sucesso
+2025-05-15 21:50:16 [info]: Chat em grupo criado: Grupo de Amigos (68268bc8a6d2403fa3a6362c)
+2025-05-15 21:50:16 [info]: 5. Enviando mensagens no chat individual...
+2025-05-15 21:50:17 [info]: Mensagem enviada com sucesso no chat 68268bc8a6d2403fa3a6362a
+2025-05-15 21:50:17 [info]: Mensagem enviada com sucesso no chat 68268bc8a6d2403fa3a6362a
+2025-05-15 21:50:17 [info]: Mensagens enviadas no chat individual
+2025-05-15 21:50:17 [info]: 6. Enviando mensagens no chat em grupo...
+2025-05-15 21:50:17 [info]: Mensagem enviada com sucesso no chat 68268bc8a6d2403fa3a6362c
+2025-05-15 21:50:17 [info]: Mensagem enviada com sucesso no chat 68268bc8a6d2403fa3a6362c
+2025-05-15 21:50:17 [info]: Mensagens enviadas no chat em grupo
+2025-05-15 21:50:17 [info]: 7. Buscando mensagens do chat individual...
+2025-05-15 21:50:17 [info]: Mensagens encontradas no chat individual: 2
+2025-05-15 21:50:17 [info]: - Maria Souza: Olá, João! Estou bem, e você?
+2025-05-15 21:50:17 [info]: - João Silva: Olá, Maria! Como você está?
+2025-05-15 21:50:17 [info]: 8. Marcando mensagens como lidas...
+2025-05-15 21:50:17 [info]: 1 mensagens marcadas como lidas no chat 68268bc8a6d2403fa3a6362a
+2025-05-15 21:50:17 [info]: 1 mensagens marcadas como lidas
+2025-05-15 21:50:17 [info]: 9. Buscando chats do usuário...
+2025-05-15 21:50:17 [info]: Chats encontrados para João Silva: 2
+2025-05-15 21:50:17 [info]: - Grupo: Grupo de Amigos (68268bc8a6d2403fa3a6362c)
+2025-05-15 21:50:17 [info]: - Individual: Chat individual (68268bc8a6d2403fa3a6362a)
+2025-05-15 21:50:17 [info]: 10. Excluindo uma mensagem...
+2025-05-15 21:50:17 [info]: Mensagem 68268bc8a6d2403fa3a6362e apagada com sucesso
+2025-05-15 21:50:17 [info]: Mensagem excluída com sucesso
+2025-05-15 21:50:17 [info]: === EXEMPLO CONCLUÍDO COM SUCESSO ===
+2025-05-15 21:50:17 [warn]: MongoDB desconectado
+2025-05-15 21:50:17 [info]: Desconectado do banco de dados com sucesso
+2025-05-19 19:40:17 [info]: Conexão com o banco de dados estabelecida com sucesso
+2025-05-19 19:40:17 [info]: Biblioteca de chat inicializada com sucesso
+2025-05-19 19:40:17 [info]: === INICIANDO EXEMPLO DE USO DA BIBLIOTECA ===
+2025-05-19 19:40:17 [info]: 1. Criando usuários...
+2025-05-19 19:40:17 [error]: Error: Nome de usuário já está em uso
+    at userSchema.statics.createUser (C:\Users\Trick\Desktop\web2\src\models\User.js:81:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.createUser (C:\Users\Trick\Desktop\web2\src\index.js:75:14)
+    at async executeExample (C:\Users\Trick\Desktop\web2\src\example.js:38:25)
+2025-05-19 19:40:17 [error]: Error: Nome de usuário já está em uso
+    at userSchema.statics.createUser (C:\Users\Trick\Desktop\web2\src\models\User.js:81:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.createUser (C:\Users\Trick\Desktop\web2\src\index.js:75:14)
+    at async executeExample (C:\Users\Trick\Desktop\web2\src\example.js:39:25)
+2025-05-19 19:40:17 [error]: Error: Nome de usuário já está em uso
+    at userSchema.statics.createUser (C:\Users\Trick\Desktop\web2\src\models\User.js:81:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.createUser (C:\Users\Trick\Desktop\web2\src\index.js:75:14)
+    at async executeExample (C:\Users\Trick\Desktop\web2\src\example.js:40:25)
+2025-05-19 19:40:17 [error]: Erro durante a execução do exemplo:
+2025-05-19 19:40:17 [warn]: MongoDB desconectado
+2025-05-19 19:40:17 [info]: Desconectado do banco de dados com sucesso
+2025-05-19 20:42:00 [info]: Conexão com o banco de dados estabelecida com sucesso
+2025-05-19 20:42:00 [info]: Biblioteca de chat inicializada com sucesso
+2025-05-19 20:42:44 [info]: Usuário criado com sucesso: Patrick
+2025-05-19 20:44:17 [info]: Chat individual criado com sucesso
+2025-05-19 20:44:17 [info]: 0 mensagens marcadas como lidas no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:44:30 [info]: Mensagem enviada com sucesso no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:44:30 [info]: 0 mensagens marcadas como lidas no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:45:05 [info]: Chat individual já existe entre os usuários: 682bc1f41e6590aa0b1b3665, 68268bc8a6d2403fa3a63623
+2025-05-19 20:45:05 [info]: 0 mensagens marcadas como lidas no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:45:14 [info]: Mensagem enviada com sucesso no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:45:14 [info]: 0 mensagens marcadas como lidas no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:45:32 [error]: Error: Status inválido. Use: online, offline ou away
+    at userSchema.statics.updateStatus (C:\Users\Trick\Desktop\web2\src\models\User.js:120:13)
+    at ChatLibrary.updateUserStatus (C:\Users\Trick\Desktop\web2\src\index.js:117:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Desktop\web2\src\cli.js:611:28
+2025-05-19 20:46:16 [info]: Status do usuário Patrick atualizado para: online
+2025-05-19 20:46:36 [info]: Status do usuário Patrick atualizado para: offline
+2025-05-19 20:46:50 [info]: Status do usuário Patrick atualizado para: online
+2025-05-19 20:46:57 [info]: Status do usuário Patrick atualizado para: offline
+2025-05-19 20:47:13 [info]: Status do usuário carlos789 atualizado para: online
+2025-05-19 20:47:23 [info]: 2 mensagens marcadas como lidas no chat 682bc2511e6590aa0b1b3669
+2025-05-19 20:47:31 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Desktop\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Desktop\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async showUnreadMessages (C:\Users\Trick\Desktop\web2\src\cli.js:635:24)
+2025-05-19 20:48:01 [info]: Status do usuário carlos789 atualizado para: offline
+2025-05-19 20:48:01 [warn]: MongoDB desconectado

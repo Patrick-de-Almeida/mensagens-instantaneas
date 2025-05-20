@@ -1,0 +1,26 @@
+2025-05-19 19:40:17 [error]: Error: Nome de usuário já está em uso
+    at userSchema.statics.createUser (C:\Users\Trick\Desktop\web2\src\models\User.js:81:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.createUser (C:\Users\Trick\Desktop\web2\src\index.js:75:14)
+    at async executeExample (C:\Users\Trick\Desktop\web2\src\example.js:38:25)
+2025-05-19 19:40:17 [error]: Error: Nome de usuário já está em uso
+    at userSchema.statics.createUser (C:\Users\Trick\Desktop\web2\src\models\User.js:81:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.createUser (C:\Users\Trick\Desktop\web2\src\index.js:75:14)
+    at async executeExample (C:\Users\Trick\Desktop\web2\src\example.js:39:25)
+2025-05-19 19:40:17 [error]: Error: Nome de usuário já está em uso
+    at userSchema.statics.createUser (C:\Users\Trick\Desktop\web2\src\models\User.js:81:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.createUser (C:\Users\Trick\Desktop\web2\src\index.js:75:14)
+    at async executeExample (C:\Users\Trick\Desktop\web2\src\example.js:40:25)
+2025-05-19 19:40:17 [error]: Erro durante a execução do exemplo:
+2025-05-19 20:45:32 [error]: Error: Status inválido. Use: online, offline ou away
+    at userSchema.statics.updateStatus (C:\Users\Trick\Desktop\web2\src\models\User.js:120:13)
+    at ChatLibrary.updateUserStatus (C:\Users\Trick\Desktop\web2\src\index.js:117:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Desktop\web2\src\cli.js:611:28
+2025-05-19 20:47:31 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Desktop\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Desktop\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async showUnreadMessages (C:\Users\Trick\Desktop\web2\src\cli.js:635:24)
