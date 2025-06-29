@@ -1,9 +1,14 @@
 const logger = require('../config/logger');
 
+/**
+ * Classe para tratamento centralizado de erros
+ */
 class ErrorHandler {
   constructor() {
+    // Registrar erros não tratados
     process.on('uncaughtException', (error) => {
       this.handleError(error, 'UncaughtException');
+      // Em ambiente de produção, pode ser necessário encerrar o processo
       if (process.env.NODE_ENV === 'production') {
         process.exit(1);
       }
@@ -21,10 +26,11 @@ class ErrorHandler {
    * @param {Object} additionalInfo - Informações adicionais (opcional)
    */
   handleError(error, source = 'Application', additionalInfo = {}) {
+    // Formatar mensagem de erro
     const errorMessage = error.message || 'Erro sem mensagem';
     const errorStack = error.stack || 'Sem stack trace disponível';
     const errorCode = error.code || 'UNKNOWN_ERROR';
-
+    
     const logData = {
       source,
       errorCode,
@@ -32,8 +38,9 @@ class ErrorHandler {
       stack: errorStack,
     };
 
+    // Registrar erro no log
     logger.error(`[${source}] ${errorMessage}`, logData);
-
+    
     return {
       success: false,
       error: {
@@ -52,28 +59,29 @@ class ErrorHandler {
    */
   validateRequiredFields(data, requiredFields) {
     const missingFields = [];
-
+    
     for (const field of requiredFields) {
       if (data[field] === undefined || data[field] === null || data[field] === '') {
         missingFields.push(field);
       }
     }
-
+    
     if (missingFields.length > 0) {
       const error = new Error(`Campos obrigatórios ausentes: ${missingFields.join(', ')}`);
       error.code = 'MISSING_REQUIRED_FIELDS';
       error.fields = missingFields;
-
+      
       return {
         valid: false,
         error
       };
     }
-
+    
     return {
       valid: true
     };
   }
 }
 
+// Exportar uma instância única do ErrorHandler
 module.exports = new ErrorHandler(); 

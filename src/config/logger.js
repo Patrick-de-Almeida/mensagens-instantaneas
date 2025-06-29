@@ -2,10 +2,13 @@ const winston = require('winston');
 const path = require('path');
 const fs = require('fs');
 
+// Garantir que o diretório de logs existe
 const logDir = path.join(__dirname, '../../logs');
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir, { recursive: true });
 }
+
+// Configurar o formato de log
 const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
   return `${timestamp} [${level}]: ${stack || message}`;
 });
@@ -19,12 +22,12 @@ const logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console(),
-    new winston.transports.File({
-      filename: path.join(logDir, 'error.log'),
-      level: 'error'
+    new winston.transports.File({ 
+      filename: path.join(logDir, 'error.log'), 
+      level: 'error' 
     }),
-    new winston.transports.File({
-      filename: path.join(logDir, 'combined.log')
+    new winston.transports.File({ 
+      filename: path.join(logDir, 'combined.log') 
     })
   ]
 });

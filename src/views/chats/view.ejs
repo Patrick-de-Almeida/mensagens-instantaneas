@@ -1,0 +1,323 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <% if (chat.isGroup) { %>
+                    <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>
+                        <%= chat.name %>
+                    </h5>
+                    <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#chatInfoModal">
+                        <i class="bi bi-info-circle"></i> Info
+                    </button>
+                    <% } else { %>
+                        <% // Encontrar o outro participante (não o usuário atual) const
+                            otherParticipant=chat.participants.find(p=> p._id.toString() !==
+                            currentUser._id.toString());
+                            const name = otherParticipant ? otherParticipant.name : 'Desconhecido';
+                            const status = otherParticipant ? otherParticipant.status : 'offline';
+                            %>
+                            <h5 class="mb-0">
+                                <i class="bi bi-circle-fill me-2 text-<%= status === 'online' ? 'success' : (status === 'away' ? 'warning' : 'secondary') %>"
+                                    style="font-size: 0.7rem;"></i>
+                                <%= name %>
+                            </h5>
+                            <span class="badge bg-light text-dark">
+                                <%= status==='online' ? 'Online' : (status==='away' ? 'Ausente' : 'Offline' ) %>
+                            </span>
+                            <% } %>
+            </div>
+
+            <div class="card-body chat-messages" id="chatMessages" style="height: 400px; overflow-y: auto;">
+                <% if (messages && messages.length> 0) { %>
+                    <% messages.forEach(message=> { %>
+                        <% const isCurrentUser=message.sender._id.toString()===currentUser._id.toString(); %>
+                            <div class="message <%= isCurrentUser ? 'message-outgoing' : 'message-incoming' %> mb-3">
+                                <div
+                                    class="message-bubble p-3 rounded <%= isCurrentUser ? 'bg-primary text-white' : 'bg-light' %>">
+                                    <% if (!isCurrentUser && chat.isGroup) { %>
+                                        <div class="message-sender fw-bold mb-1">
+                                            <%= message.sender.name %>
+                                        </div>
+                                        <% } %>
+                                            <div class="message-content">
+                                                <%= message.content %>
+                                            </div>
+                                            <div class="message-time text-end mt-1">
+                                                <small class="<%= isCurrentUser ? 'text-light' : 'text-muted' %>">
+                                                    <%= new Date(message.createdAt).toLocaleTimeString([],
+                                                        {hour: '2-digit' , minute:'2-digit'}) %>
+                                                </small>
+                                            </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                                <% } else { %>
+                                    <div class="text-center text-muted py-5">
+                                        <p>Nenhuma mensagem ainda. Seja o primeiro a enviar uma mensagem!</p>
+                                    </div>
+                                    <% } %>
+            </div>
+
+            <div class="card-footer">
+                <form id="messageForm" class="d-flex">
+                    <input type="hidden" id="chatId" value="<%= chat._id %>">
+                    <input type="text" id="messageContent" class="form-control me-2"
+                        placeholder="Digite sua mensagem..." required>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% if (chat.isGroup) { %>
+    <!-- Modal de Informações do Grupo -->
+    <div class="modal fade" id="chatInfoModal" tabindex="-1" aria-labelledby="chatInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatInfoModalLabel">Informações do Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Nome do Grupo</h6>
+                    <p>
+                        <%= chat.name %>
+                    </p>
+
+                    <h6 class="mt-4">Participantes (<%= chat.participants.length %>)</h6>
+                    <ul class="list-group">
+                        <% chat.participants.forEach(participant=> { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-circle-fill me-2 text-<%= participant.status === 'online' ? 'success' : (participant.status === 'away' ? 'warning' : 'secondary') %>"
+                                        style="font-size: 0.7rem;"></i>
+                                    <%= participant.name %>
+                                        <% if (chat.admins.some(admin=> admin._id.toString() ===
+                                            participant._id.toString())) { %>
+                                            <span class="badge bg-primary ms-2">Admin</span>
+                                            <% } %>
+                                </div>
+                                <% const isAdmin=chat.admins.some(admin=> admin._id.toString() ===
+                                    currentUser._id.toString());
+                                    const isSelf = participant._id.toString() === currentUser._id.toString();
+                                    %>
+                                    <% if (isAdmin && !isSelf) { %>
+                                        <button class="btn btn-sm btn-outline-danger remove-participant"
+                                            data-id="<%= participant._id %>">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                        <% } %>
+                            </li>
+                            <% }); %>
+                    </ul>
+
+                    <% if (chat.admins.some(admin=> admin._id.toString() === currentUser._id.toString())) { %>
+                        <div class="mt-4">
+                            <h6>Adicionar Participante</h6>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="newParticipantUsername"
+                                    placeholder="Nome de usuário">
+                                <button class="btn btn-outline-primary" type="button"
+                                    id="searchNewParticipantBtn">Buscar</button>
+                            </div>
+                            <div id="newParticipantResult" class="mt-2"></div>
+                        </div>
+                        <% } %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
+        <style>
+            .message {
+                display: flex;
+                margin-bottom: 15px;
+            }
+
+            .message-outgoing {
+                justify-content: flex-end;
+            }
+
+            .message-incoming {
+                justify-content: flex-start;
+            }
+
+            .message-bubble {
+                max-width: 75%;
+                border-radius: 18px;
+            }
+
+            .message-outgoing .message-bubble {
+                border-bottom-right-radius: 5px;
+            }
+
+            .message-incoming .message-bubble {
+                border-bottom-left-radius: 5px;
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Rolar para o final da conversa
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Enviar mensagem
+                document.getElementById('messageForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const chatId = document.getElementById('chatId').value;
+                    const content = document.getElementById('messageContent').value;
+
+                    if (!content.trim()) return;
+
+                    fetch('/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chatId,
+                            content
+                        }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Adicionar mensagem à conversa
+                                const message = data.message;
+                                const messageHtml = `
+            <div class="message message-outgoing mb-3">
+              <div class="message-bubble p-3 rounded bg-primary text-white">
+                <div class="message-content">${message.content}</div>
+                <div class="message-time text-end mt-1">
+                  <small class="text-light">
+                    ${new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </small>
+                </div>
+              </div>
+            </div>
+          `;
+
+                                chatMessages.insertAdjacentHTML('beforeend', messageHtml);
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                                // Limpar campo de mensagem
+                                document.getElementById('messageContent').value = '';
+                            } else {
+                                alert('Erro ao enviar mensagem: ' + data.error.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro:', error);
+                            alert('Erro ao enviar mensagem');
+                        });
+                });
+    
+    <% if (chat.isGroup) { %>
+                    // Buscar novo participante
+                    const searchNewParticipantBtn = document.getElementById('searchNewParticipantBtn');
+                    if (searchNewParticipantBtn) {
+                        searchNewParticipantBtn.addEventListener('click', function () {
+                            const username = document.getElementById('newParticipantUsername').value;
+                            if (!username) return;
+
+                            fetch(`/users/search?username=${encodeURIComponent(username)}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const resultDiv = document.getElementById('newParticipantResult');
+                                    if (data.success) {
+                                        // Verificar se o usuário já é participante
+                                        const participantIds = JSON.parse('<%= JSON.stringify(chat.participants.map(p => p._id)) %>');
+                                        const isParticipant = participantIds.includes(data.user._id);
+
+                                        if (isParticipant) {
+                                            resultDiv.innerHTML = `<div class="alert alert-warning">Este usuário já é participante do grupo</div>`;
+                                        } else {
+                                            resultDiv.innerHTML = `
+                                              <div class="alert alert-success">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                  <div>
+                                                    <strong>${data.user.name}</strong> (${data.user.username})
+                                                  </div>
+                                                  <button class="btn btn-sm btn-success add-participant" data-id="${data.user._id}">Adicionar</button>
+                                                </div>
+                                              </div>
+                                            `;
+
+                                            // Adicionar evento para adicionar participante
+                                            document.querySelectorAll('.add-participant').forEach(btn => {
+                                                btn.addEventListener('click', function () {
+                                                    addParticipant(this.dataset.id);
+                                                });
+                                            });
+                                        }
+                                    } else {
+                                        resultDiv.innerHTML = `<div class="alert alert-danger">Usuário não encontrado</div>`;
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Erro:', error);
+                                });
+                        });
+                    }
+
+                    // Adicionar participante
+                    function addParticipant(participantId) {
+                        fetch(`/chats/<%= chat._id %>/participants`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                participants: [participantId]
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    location.reload();
+                                } else {
+                                    alert('Erro ao adicionar participante: ' + data.error.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erro:', error);
+                                alert('Erro ao adicionar participante');
+                            });
+                    }
+
+                    // Remover participante
+                    document.querySelectorAll('.remove-participant').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            if (confirm('Tem certeza que deseja remover este participante?')) {
+                                const participantId = this.dataset.id;
+
+                                fetch(`/chats/<%= chat._id %>/participants/${participantId}`, {
+                                    method: 'DELETE',
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            location.reload();
+                                        } else {
+                                            alert('Erro ao remover participante: ' + data.error.message);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erro:', error);
+                                        alert('Erro ao remover participante');
+                                    });
+                            }
+                        });
+                    });
+    <% } %>
+  });
+        </script>

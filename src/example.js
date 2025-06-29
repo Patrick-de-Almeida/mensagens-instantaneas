@@ -1,36 +1,40 @@
 /**
- * Exemplo de uso da biblioteca 
+ * Exemplo de uso da biblioteca de mensagens instantâneas
  */
 const chatLib = require('./index');
 const logger = require('./config/logger');
 
+// Função principal do exemplo
 async function executeExample() {
   try {
+    // Conectar ao banco de dados
     await chatLib.connect();
     logger.info('=== INICIANDO EXEMPLO DE USO DA BIBLIOTECA ===');
 
+    // Criar usuários
     logger.info('1. Criando usuários...');
     const user1Data = {
       username: 'joao123',
       email: 'joao@example.com',
       password: 'senha123',
-      name: 'João Marcos'
+      name: 'João Silva'
     };
 
     const user2Data = {
       username: 'maria456',
       email: 'maria@example.com',
       password: 'senha456',
-      name: 'Maria Clara'
+      name: 'Maria Souza'
     };
 
     const user3Data = {
       username: 'carlos789',
       email: 'carlos@example.com',
       password: 'senha789',
-      name: 'Carlos Saraiva'
+      name: 'Carlos Oliveira'
     };
 
+    // Criar os usuários
     const user1Result = await chatLib.createUser(user1Data);
     const user2Result = await chatLib.createUser(user2Data);
     const user3Result = await chatLib.createUser(user3Data);
@@ -45,11 +49,13 @@ async function executeExample() {
 
     logger.info(`Usuários criados com sucesso: ${user1.username}, ${user2.username}, ${user3.username}`);
 
+    // Atualizar status de usuário
     logger.info('2. Atualizando status dos usuários...');
     await chatLib.updateUserStatus(user1._id, 'online');
     await chatLib.updateUserStatus(user2._id, 'online');
     logger.info('Status dos usuários atualizados');
 
+    // Criar chat individual
     logger.info('3. Criando chat individual...');
     const chatIndividualResult = await chatLib.createChat({
       participants: [user1._id, user2._id]
@@ -62,6 +68,7 @@ async function executeExample() {
     const chatIndividual = chatIndividualResult.chat;
     logger.info(`Chat individual criado: ${chatIndividual._id}`);
 
+    // Criar chat em grupo
     logger.info('4. Criando chat em grupo...');
     const chatGrupoResult = await chatLib.createChat({
       name: 'Grupo de Amigos',
@@ -76,6 +83,7 @@ async function executeExample() {
     const chatGrupo = chatGrupoResult.chat;
     logger.info(`Chat em grupo criado: ${chatGrupo.name} (${chatGrupo._id})`);
 
+    // Enviar mensagens no chat individual
     logger.info('5. Enviando mensagens no chat individual...');
     const mensagem1Result = await chatLib.sendMessage({
       chatId: chatIndividual._id,
@@ -95,6 +103,7 @@ async function executeExample() {
 
     logger.info('Mensagens enviadas no chat individual');
 
+    // Enviar mensagens no chat em grupo
     logger.info('6. Enviando mensagens no chat em grupo...');
     const mensagem3Result = await chatLib.sendMessage({
       chatId: chatGrupo._id,
@@ -114,9 +123,10 @@ async function executeExample() {
 
     logger.info('Mensagens enviadas no chat em grupo');
 
+    // Buscar mensagens do chat
     logger.info('7. Buscando mensagens do chat individual...');
     const mensagensChatIndividual = await chatLib.getChatMessages(chatIndividual._id);
-
+    
     if (!mensagensChatIndividual.success) {
       throw new Error('Falha ao buscar mensagens do chat individual');
     }
@@ -126,18 +136,20 @@ async function executeExample() {
       logger.info(`- ${msg.sender.name}: ${msg.content}`);
     });
 
+    // Marcar mensagens como lidas
     logger.info('8. Marcando mensagens como lidas...');
     const markReadResult = await chatLib.markMessagesAsRead(chatIndividual._id, user2._id);
-
+    
     if (!markReadResult.success) {
       throw new Error('Falha ao marcar mensagens como lidas');
     }
 
     logger.info(`${markReadResult.modifiedCount} mensagens marcadas como lidas`);
 
+    // Buscar chats do usuário
     logger.info('9. Buscando chats do usuário...');
     const chatsUsuario1 = await chatLib.getUserChats(user1._id);
-
+    
     if (!chatsUsuario1.success) {
       throw new Error('Falha ao buscar chats do usuário');
     }
@@ -149,21 +161,25 @@ async function executeExample() {
       logger.info(`- ${tipoChat}: ${nomeChat} (${chat._id})`);
     });
 
+    // Excluir uma mensagem
     logger.info('10. Excluindo uma mensagem...');
     const deleteMessageResult = await chatLib.deleteMessage(mensagem1Result.message._id, user1._id);
-
+    
     if (!deleteMessageResult.success) {
       throw new Error('Falha ao excluir mensagem');
     }
 
     logger.info('Mensagem excluída com sucesso');
 
+    // Finalizar execução
     logger.info('=== EXEMPLO CONCLUÍDO COM SUCESSO ===');
   } catch (error) {
     logger.error('Erro durante a execução do exemplo:', { error });
   } finally {
+    // Fechar conexão
     await chatLib.disconnect();
   }
 }
 
+// Executar o exemplo
 executeExample(); 

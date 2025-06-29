@@ -1,0 +1,97 @@
+/* Estilos gerais */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Estilos para mensagens de chat */
+.message {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.message-outgoing {
+    justify-content: flex-end;
+}
+
+.message-incoming {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 75%;
+    border-radius: 18px;
+    word-break: break-word;
+}
+
+.message-outgoing .message-bubble {
+    border-bottom-right-radius: 5px;
+}
+
+.message-incoming .message-bubble {
+    border-bottom-left-radius: 5px;
+}
+
+/* Área de chat */
+.chat-messages {
+    height: 60vh;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: #f8f9fa;
+}
+
+/* Formulários */
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #86b7fe;
+}
+
+/* Botões */
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* Status de usuário */
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.status-online {
+    background-color: #198754;
+}
+
+.status-away {
+    background-color: #ffc107;
+}
+
+.status-offline {
+    background-color: #6c757d;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .message-bubble {
+        max-width: 85%;
+    }
+}
+
+@media (max-width: 576px) {
+    .message-bubble {
+        max-width: 90%;
+    }
+}

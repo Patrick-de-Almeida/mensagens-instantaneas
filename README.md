@@ -1,161 +1,49 @@
-# Biblioteca de Mensagens Instantâneas
+# Documentação do Projeto
 
-Uma biblioteca Node.js para gerenciamento de mensagens instantâneas.
-
-## Funcionalidades
-
-- Gestão de usuários (criação, busca, atualização e exclusão)
-- Criação de chats individuais e em grupo
-- Envio e recebimento de mensagens
-- Marcação de mensagens como lidas
-- Sistema de log para tratamento de erros
+Esta pasta contém a documentação completa do projeto de Mensagens Instantâneas para a disciplina de Programação Web Back-End.
 
 ## Estrutura do Projeto
 
-```
-.
-├── src/
-│   ├── models/          # Modelos de dados (User, Chat, Message)
-│   ├── config/          # Configurações (banco de dados, logger)
-│   ├── utils/           # Utilitários (tratamento de erros)
-│   ├── logs/            # Logs de aplicação
-│   ├── index.js         # Arquivo principal da biblioteca
-│   ├── example.js       # Exemplo de uso da biblioteca
-│   └── cli.js           # Interface de linha de comando interativa
-├── package.json
-└── README.md
-```
+O projeto está dividido em duas partes principais:
 
-## Requisitos
+1. **Biblioteca de Mensagens**: Uma biblioteca Node.js para gerenciar usuários, chats e mensagens.
+2. **Aplicação Web**: Uma interface web construída com Express.js e EJS que utiliza a biblioteca de mensagens.
 
-- Node.js (v12+)
-- MongoDB (local ou remoto)
+## Projeto 1 - Biblioteca de Mensagens
 
-## Instalação
+A primeira parte do projeto consistiu no desenvolvimento da biblioteca de mensagens, que fornece uma API para:
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/Patrick-de-Almeida/mensagens-instantaneas.git
-cd mensagens-instantaneas
-```
+- Gerenciamento de usuários
+- Criação e gerenciamento de chats (individuais e em grupo)
+- Envio e recebimento de mensagens
+- Marcação de mensagens como lidas
+- Sistema de logs para tratamento de erros
 
-2. Instale as dependências:
-```bash
-npm install
-```
+## Projeto 2 - Aplicação Web
 
-3. Configure o arquivo `.env` a partir do exemplo:
-```
-MONGO_URI=mongodb://localhost:27017/chat_app
-NODE_ENV=development
-LOG_LEVEL=info
-```
+A segunda parte do projeto consiste na implementação de uma aplicação web utilizando Express.js que consome a biblioteca desenvolvida no Projeto 1. A aplicação web fornece:
 
-## Como Usar
+- Interface de usuário para registro e login
+- Listagem e criação de chats
+- Interface para envio e recebimento de mensagens
+- Gerenciamento de perfil de usuário
+- Notificações de mensagens não lidas
 
-### Exemplo Básico
+## Como Executar
 
-```javascript
-const chatLib = require('./src/index');
-
-async function exemplo() {
-  try {
-    // Conectar ao banco
-    await chatLib.connect();
-    
-    // Criar usuários
-    const user1 = await chatLib.createUser({
-      username: 'usuario1',
-      email: 'usuario1@example.com',
-      password: 'senha123',
-      name: 'Usuário Um'
-    });
-    
-    const user2 = await chatLib.createUser({
-      username: 'usuario2',
-      email: 'usuario2@example.com',
-      password: 'senha456',
-      name: 'Usuário Dois'
-    });
-    
-    // Criar um chat
-    const chat = await chatLib.createChat({
-      participants: [user1.user._id, user2.user._id]
-    });
-    
-    // Enviar mensagem
-    await chatLib.sendMessage({
-      chatId: chat.chat._id,
-      sender: user1.user._id,
-      content: 'Olá, como vai?'
-    });
-    
-    // Buscar mensagens
-    const mensagens = await chatLib.getChatMessages(chat.chat._id);
-    console.log(mensagens);
-    
-    // Desconectar
-    await chatLib.disconnect();
-  } catch (error) {
-    console.error('Erro:', error);
-  }
-}
-
-exemplo();
-```
-
-### Executar o Exemplo Completo
+### Biblioteca de Mensagens (Projeto 1)
 
 ```bash
-npm run example
+npm start          # Iniciar a biblioteca
+npm run example    # Executar o exemplo
+npm run cli        # Executar a interface de linha de comando
 ```
 
-### Usar a Interface de Linha de Comando
-
-A biblioteca inclui uma interface de linha de comando interativa que permite usar todas as funcionalidades:
+### Aplicação Web (Projeto 2)
 
 ```bash
-npm run cli
+npm run web        # Iniciar a aplicação web
 ```
 
-Com a CLI você pode:
-- Criar contas de usuário
-- Fazer login/logout
-- Criar chats individuais e em grupo
-- Enviar e receber mensagens
-- Gerenciar participantes de grupos
-- Ver mensagens não lidas
-- Atualizar seu status
+A aplicação web estará disponível em `http://localhost:3000`.
 
-## API da Biblioteca
-
-### Usuários
-
-- `createUser(userData)` - Cria um novo usuário
-- `findUserByUsername(username)` - Busca um usuário pelo nome de usuário
-- `listAllUsers()` - Lista todos os usuários
-- `updateUserStatus(userId, status)` - Atualiza o status de um usuário
-- `deleteUser(userId)` - Remove um usuário
-
-### Chats
-
-- `createChat(chatData)` - Cria um novo chat
-- `getUserChats(userId)` - Busca chats de um usuário
-- `getChatById(chatId, userId)` - Busca um chat pelo ID
-- `addChatParticipants(chatId, participantIds, addedBy)` - Adiciona participantes
-- `removeChatParticipant(chatId, participantId, removedBy)` - Remove participante
-- `deleteChat(chatId, userId)` - Exclui um chat
-
-### Mensagens
-
-- `sendMessage(messageData)` - Envia uma nova mensagem
-- `getChatMessages(chatId, options)` - Busca mensagens de um chat
-- `markMessagesAsRead(chatId, userId)` - Marca mensagens como lidas
-- `getUnreadMessages(userId)` - Busca mensagens não lidas
-- `deleteMessage(messageId, userId)` - Apaga uma mensagem
-
-## Logs e Tratamento de Erros
-
-A biblioteca mantém logs detalhados de todas as operações e erros em:
-- `logs/combined.log` - Todos os logs
-- `logs/error.log` - Apenas erros

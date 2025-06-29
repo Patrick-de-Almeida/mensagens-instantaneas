@@ -3,10 +3,14 @@ const { connectToDatabase } = require('./config/database');
 const logger = require('./config/logger');
 const errorHandler = require('./utils/errorHandler');
 
+// Importar modelos
 const User = require('./models/User');
 const Chat = require('./models/Chat');
 const Message = require('./models/Message');
 
+/**
+ * Classe principal da biblioteca de mensagens instantâneas
+ */
 class ChatLibrary {
   constructor() {
     this.isConnected = false;
@@ -179,7 +183,7 @@ class ChatLibrary {
    * Adiciona participantes a um chat em grupo
    * @param {string} chatId - ID do chat
    * @param {Array<string>} participantIds - IDs dos novos participantes
-   * @param {string} addedBy - ID do usuário que está adicionando 
+   * @param {string} addedBy - ID do usuário que está adicionando (deve ser admin)
    * @returns {Promise<Object>} - Resultado da operação
    */
   async addChatParticipants(chatId, participantIds, addedBy) {
@@ -195,7 +199,7 @@ class ChatLibrary {
    * Remove um participante de um chat em grupo
    * @param {string} chatId - ID do chat
    * @param {string} participantId - ID do participante a ser removido
-   * @param {string} removedBy - ID do usuário que está removendo 
+   * @param {string} removedBy - ID do usuário que está removendo (deve ser admin ou o próprio participante)
    * @returns {Promise<Object>} - Resultado da operação
    */
   async removeChatParticipant(chatId, participantId, removedBy) {
@@ -285,7 +289,7 @@ class ChatLibrary {
   /**
    * Apaga uma mensagem
    * @param {string} messageId - ID da mensagem
-   * @param {string} userId - ID do usuário (opcional, para verificar permissão)
+   * @param {string} userId - ID do usuário 
    * @returns {Promise<Object>} - Resultado da operação
    */
   async deleteMessage(messageId, userId = null) {
@@ -311,4 +315,5 @@ class ChatLibrary {
   }
 }
 
+// Exportar uma instância da biblioteca
 module.exports = new ChatLibrary(); 

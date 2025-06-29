@@ -1,0 +1,101 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Meu Perfil</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <div class="avatar-container mb-3">
+                            <% if (user.avatar) { %>
+                                <img src="<%= user.avatar %>" alt="Avatar" class="img-fluid rounded-circle"
+                                    style="width: 150px; height: 150px;">
+                                <% } else { %>
+                                    <div class="avatar-placeholder rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                                        style="width: 150px; height: 150px; font-size: 3rem; margin: 0 auto;">
+                                        <%= user.name.charAt(0).toUpperCase() %>
+                                    </div>
+                                    <% } %>
+                        </div>
+
+                        <div class="status-selector">
+                            <div class="mb-2">
+                                <span>Status atual: </span>
+                                <span
+                                    class="current-status fw-bold text-<%= user.status === 'online' ? 'success' : (user.status === 'away' ? 'warning' : 'secondary') %>">
+                                    <%= user.status==='online' ? 'Online' : (user.status==='away' ? 'Ausente'
+                                        : 'Offline' ) %>
+                                </span>
+                            </div>
+
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-outline-success status-btn"
+                                    data-status="online">
+                                    <i class="bi bi-circle-fill"></i> Online
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-warning status-btn"
+                                    data-status="away">
+                                    <i class="bi bi-circle-fill"></i> Ausente
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary status-btn"
+                                    data-status="offline">
+                                    <i class="bi bi-circle-fill"></i> Offline
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <h5>Informações Pessoais</h5>
+                            <hr>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nome Completo</label>
+                            <p>
+                                <%= user.name %>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nome de Usuário</label>
+                            <p>
+                                <%= user.username %>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email</label>
+                            <p>
+                                <%= user.email %>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Membro desde</label>
+                            <p>
+                                <%= new Date(user.createdAt).toLocaleDateString() %>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Última atividade</label>
+                            <p>
+                                <%= new Date(user.lastSeen).toLocaleString() %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Adicionar classe ao body para indicar que o usuário está logado
+        document.body.classList.add('logged-in');
+    });
+</script>

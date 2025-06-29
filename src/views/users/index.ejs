@@ -1,0 +1,106 @@
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1>Usuários</h1>
+        <p class="lead">Lista de todos os usuários registrados na plataforma.</p>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Usuário</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (users && users.length> 0) { %>
+                                <% users.forEach(user=> { %>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <% if (user.avatar) { %>
+                                                    <img src="<%= user.avatar %>" alt="Avatar"
+                                                        class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                                                    <% } else { %>
+                                                        <div class="avatar-placeholder rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-2"
+                                                            style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                                            <%= user.name.charAt(0).toUpperCase() %>
+                                                        </div>
+                                                        <% } %>
+                                                            <%= user.name %>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%= user.username %>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="badge bg-<%= user.status === 'online' ? 'success' : (user.status === 'away' ? 'warning' : 'secondary') %>">
+                                                <%= user.status==='online' ? 'Online' : (user.status==='away'
+                                                    ? 'Ausente' : 'Offline' ) %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <% if (currentUser && user._id.toString() !==currentUser._id.toString()) {
+                                                %>
+                                                <button class="btn btn-sm btn-primary start-chat"
+                                                    data-id="<%= user._id %>">
+                                                    <i class="bi bi-chat"></i> Conversar
+                                                </button>
+                                                <% } else { %>
+                                                    <span class="text-muted">Você</span>
+                                                    <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4" class="text-center">Nenhum usuário encontrado.</td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Iniciar chat com usuário
+        document.querySelectorAll('.start-chat').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.dataset.id;
+
+                fetch('/chats', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        participants: [userId],
+                        isGroup: false
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = `/chats/${data.chat._id}`;
+                        } else {
+                            alert('Erro ao criar chat: ' + data.error.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        alert('Erro ao criar chat');
+                    });
+            });
+        });
+    });
+</script>

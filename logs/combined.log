@@ -92,3 +92,103 @@
     at async showUnreadMessages (C:\Users\Trick\Desktop\web2\src\cli.js:635:24)
 2025-05-19 20:48:01 [info]: Status do usuário carlos789 atualizado para: offline
 2025-05-19 20:48:01 [warn]: MongoDB desconectado
+2025-06-29 17:06:49 [error]: Falha ao conectar ao banco de dados
+2025-06-29 17:06:49 [error]: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (C:\Users\Trick\Documents\web2\node_modules\mongoose\lib\connection.js:816:11)
+    at NativeConnection.openUri (C:\Users\Trick\Documents\web2\node_modules\mongoose\lib\connection.js:791:11)
+    at async connectToDatabase (C:\Users\Trick\Documents\web2\src\config\database.js:8:5)
+    at async ChatLibrary.connect (C:\Users\Trick\Documents\web2\src\index.js:35:7)
+    at async startServer (C:\Users\Trick\Documents\web2\src\app.js:89:9)
+2025-06-29 17:06:49 [info]: Conectado ao banco de dados
+2025-06-29 17:06:49 [info]: Servidor rodando na porta 3000
+2025-06-29 17:10:35 [error]: Falha ao conectar ao banco de dados
+2025-06-29 17:10:35 [error]: MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
+    at _handleConnectionErrors (C:\Users\Trick\Documents\web2\node_modules\mongoose\lib\connection.js:816:11)
+    at NativeConnection.openUri (C:\Users\Trick\Documents\web2\node_modules\mongoose\lib\connection.js:791:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async connectToDatabase (C:\Users\Trick\Documents\web2\src\config\database.js:8:5)
+    at async ChatLibrary.connect (C:\Users\Trick\Documents\web2\src\index.js:35:7)
+    at async ChatLibrary.ensureConnection (C:\Users\Trick\Documents\web2\src\index.js:313:7)
+    at async ChatLibrary.createUser (C:\Users\Trick\Documents\web2\src\index.js:74:7)
+    at async C:\Users\Trick\Documents\web2\src\routes\auth.js:105:24
+2025-06-29 17:10:45 [error]: MongooseError: Operation `users.insertOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (C:\Users\Trick\Documents\web2\node_modules\mongoose\lib\drivers\node-mongodb-native\collection.js:185:23)
+    at listOnTimeout (node:internal/timers:594:17)
+    at process.processTimers (node:internal/timers:529:7)
+2025-06-29 17:13:30 [info]: Conexão com o banco de dados estabelecida com sucesso
+2025-06-29 17:13:30 [info]: Biblioteca de chat inicializada com sucesso
+2025-06-29 17:13:30 [info]: Conectado ao banco de dados
+2025-06-29 17:13:30 [info]: Servidor rodando na porta 3000
+2025-06-29 17:20:54 [info]: Status do usuário joao123 atualizado para: online
+2025-06-29 17:20:54 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:21:06 [info]: 1 mensagens marcadas como lidas no chat 68268bc8a6d2403fa3a6362a
+2025-06-29 17:21:14 [info]: Mensagem enviada com sucesso no chat 68268bc8a6d2403fa3a6362a
+2025-06-29 17:21:30 [info]: Status do usuário joao123 atualizado para: offline
+2025-06-29 17:21:45 [info]: Status do usuário maria456 atualizado para: online
+2025-06-29 17:21:45 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:21:55 [info]: 1 mensagens marcadas como lidas no chat 68268bc8a6d2403fa3a6362a
+2025-06-29 17:22:10 [info]: Mensagem enviada com sucesso no chat 68268bc8a6d2403fa3a6362a
+2025-06-29 17:22:30 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:22:32 [info]: 2 mensagens marcadas como lidas no chat 68268bc8a6d2403fa3a6362c
+2025-06-29 17:22:47 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at async C:\Users\Trick\Documents\web2\src\routes\messages.js:131:24
+2025-06-29 17:22:51 [info]: Status do usuário maria456 atualizado para: away
+2025-06-29 17:22:54 [info]: Status do usuário maria456 atualizado para: online
+2025-06-29 17:22:57 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at async C:\Users\Trick\Documents\web2\src\routes\messages.js:131:24
+2025-06-29 17:23:07 [info]: Status do usuário maria456 atualizado para: offline
+2025-06-29 17:23:22 [info]: Status do usuário joao123 atualizado para: online
+2025-06-29 17:23:22 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:23:25 [info]: 1 mensagens marcadas como lidas no chat 68268bc8a6d2403fa3a6362a
+2025-06-29 17:23:45 [info]: Status do usuário joao123 atualizado para: offline
+2025-06-29 17:24:37 [info]: Usuário criado com sucesso: arthur_lima
+2025-06-29 17:24:37 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:24:53 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:25:05 [error]: Error: Usuário 'João Silva' não encontrado
+    at userSchema.statics.findByUsername (C:\Users\Trick\Documents\web2\src\models\User.js:101:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async ChatLibrary.findUserByUsername (C:\Users\Trick\Documents\web2\src\index.js:89:14)
+    at async C:\Users\Trick\Documents\web2\src\routes\users.js:43:24
+2025-06-29 17:25:16 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:25:25 [info]: Chat individual criado com sucesso
+2025-06-29 17:25:26 [info]: 0 mensagens marcadas como lidas no chat 6861a1354ecb7e427d55a0b7
+2025-06-29 17:25:31 [info]: Mensagem enviada com sucesso no chat 6861a1354ecb7e427d55a0b7
+2025-06-29 17:25:35 [error]: TypeError: Class constructor ObjectId cannot be invoked without 'new'
+    at messageSchema.statics.findUnreadByUser (C:\Users\Trick\Documents\web2\src\models\Message.js:206:41)
+    at ChatLibrary.getUnreadMessages (C:\Users\Trick\Documents\web2\src\index.js:283:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async C:\Users\Trick\Documents\web2\src\routes\chats.js:20:30
+2025-06-29 17:25:39 [info]: Status do usuário arthur_lima atualizado para: offline
+2025-06-29 17:28:06 [warn]: MongoDB desconectado

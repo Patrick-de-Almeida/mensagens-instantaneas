@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const errorHandler = require('../utils/errorHandler');
 const logger = require('../config/logger');
 
+// Definição do schema do usuário
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -56,83 +57,86 @@ const userSchema = new mongoose.Schema({
   versionKey: false
 });
 
-// Método para criar um novo usuário
-userSchema.statics.createUser = async function (userData) {
+// Método estático para criar um novo usuário
+userSchema.statics.createUser = async function(userData) {
   try {
+    // Validar campos obrigatórios
     const requiredFields = ['username', 'email', 'password', 'name'];
     const validation = errorHandler.validateRequiredFields(userData, requiredFields);
-
+    
     if (!validation.valid) {
       throw validation.error;
     }
-
+    
+    // Criar novo usuário
     const user = new this(userData);
     await user.save();
-
+    
     logger.info(`Usuário criado com sucesso: ${userData.username}`);
     return { success: true, user: user.toObject() };
   } catch (error) {
+    // Verificar erro de duplicidade
     if (error.code === 11000) {
       const field = Object.keys(error.keyPattern)[0];
       const customError = new Error(`${field === 'username' ? 'Nome de usuário' : 'Email'} já está em uso`);
       customError.code = 'DUPLICATE_VALUE';
-
+      
       return errorHandler.handleError(customError, 'UserModel');
     }
-
+    
     return errorHandler.handleError(error, 'UserModel');
   }
 };
 
-// Método para encontrar um usuário pelo username
-userSchema.statics.findByUsername = async function (username) {
+// Método estático para encontrar um usuário pelo username
+userSchema.statics.findByUsername = async function(username) {
   try {
     if (!username) {
       throw new Error('Username é obrigatório para busca');
     }
-
+    
     const user = await this.findOne({ username });
-
+    
     if (!user) {
       const error = new Error(`Usuário '${username}' não encontrado`);
       error.code = 'USER_NOT_FOUND';
       throw error;
     }
-
+    
     return { success: true, user: user.toObject() };
   } catch (error) {
     return errorHandler.handleError(error, 'UserModel');
   }
 };
 
-// Método para atualizar o status do usuário
-userSchema.statics.updateStatus = async function (userId, status) {
+// Método estático para atualizar o status do usuário
+userSchema.statics.updateStatus = async function(userId, status) {
   try {
     if (!userId) {
       throw new Error('ID do usuário é obrigatório');
     }
-
+    
     if (!['online', 'offline', 'away'].includes(status)) {
       throw new Error('Status inválido. Use: online, offline ou away');
     }
-
-    const updates = {
-      status,
+    
+    const updates = { 
+      status, 
       lastSeen: status === 'offline' ? Date.now() : undefined
     };
-
+    
     const user = await this.findByIdAndUpdate(
       userId,
       updates,
       { new: true, runValidators: true }
     );
-
+    
     if (!user) {
       const error = new Error(`Usuário com ID '${userId}' não encontrado`);
       error.code = 'USER_NOT_FOUND';
       throw error;
     }
-
+    
     logger.info(`Status do usuário ${user.username} atualizado para: ${status}`);
     return { success: true, user: user.toObject() };
   } catch (error) {
@@ -140,8 +144,8 @@ userSchema.statics.updateStatus = async function (userId, status) {
   }
 };
 
-// Método para buscar todos os usuários
-userSchema.statics.findAllUsers = async function () {
+// Método estático para buscar todos os usuários
+userSchema.statics.findAllUsers = async function() {
   try {
     const users = await this.find({}, '-password');
     return { success: true, users };
@@ -150,21 +154,21 @@ userSchema.statics.findAllUsers = async function () {
   }
 };
 
-// Método para excluir um usuário
-userSchema.statics.deleteUser = async function (userId) {
+// Método estático para excluir um usuário
+userSchema.statics.deleteUser = async function(userId) {
   try {
     if (!userId) {
       throw new Error('ID do usuário é obrigatório');
     }
-
+    
     const user = await this.findByIdAndDelete(userId);
-
+    
     if (!user) {
       const error = new Error(`Usuário com ID '${userId}' não encontrado`);
       error.code = 'USER_NOT_FOUND';
       throw error;
     }
-
+    
     logger.info(`Usuário ${user.username} excluído com sucesso`);
     return { success: true, message: 'Usuário excluído com sucesso' };
   } catch (error) {
@@ -172,5 +176,6 @@ userSchema.statics.deleteUser = async function (userId) {
   }
 };
 
+// Criar e exportar o modelo
 const User = mongoose.model('User', userSchema);
 module.exports = User; 

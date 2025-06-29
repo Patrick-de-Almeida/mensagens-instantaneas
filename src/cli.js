@@ -1,15 +1,23 @@
+/**
+ * Interface de linha de comando para a Biblioteca de Mensagens Instantâneas
+ */
 const readline = require('readline');
 const chatLib = require('./index');
 const logger = require('./config/logger');
 
+// Usuário logado atualmente
 let currentUser = null;
 let currentChat = null;
 
+// Criar interface de linha de comando
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
+/**
+ * Exibe o menu principal
+ */
 function showMainMenu() {
     console.log('\n===== BIBLIOTECA DE MENSAGENS INSTANTÂNEAS =====');
     if (currentUser) {
@@ -76,6 +84,9 @@ function showMainMenu() {
     }
 }
 
+/**
+ * Cria um novo usuário
+ */
 async function createUser() {
     console.log('\n----- CRIAR NOVA CONTA -----');
 
@@ -105,6 +116,9 @@ async function createUser() {
     });
 }
 
+/**
+ * Faz login de um usuário
+ */
 async function loginUser() {
     console.log('\n----- LOGIN -----');
 
@@ -130,6 +144,9 @@ async function loginUser() {
     });
 }
 
+/**
+ * Lista os chats do usuário atual
+ */
 async function listUserChats() {
     console.log('\n----- MEUS CHATS -----');
 
@@ -142,6 +159,7 @@ async function listUserChats() {
                 if (chat.isGroup) {
                     console.log(`${index + 1}. Grupo: ${chat.name}`);
                 } else {
+                    // Encontrar o outro participante (não o usuário atual)
                     const otherParticipant = chat.participants.find(
                         p => p._id.toString() !== currentUser._id.toString()
                     );
@@ -175,6 +193,9 @@ async function listUserChats() {
     }
 }
 
+/**
+ * Abre um chat específico
+ */
 async function openChat(chat) {
     console.log('\n----- CHAT -----');
 
@@ -189,8 +210,10 @@ async function openChat(chat) {
     }
 
     try {
+        // Marcar mensagens como lidas
         await chatLib.markMessagesAsRead(chat._id, currentUser._id);
 
+        // Buscar mensagens
         const result = await chatLib.getChatMessages(chat._id);
 
         if (result.success && result.messages.length > 0) {
@@ -216,6 +239,9 @@ async function openChat(chat) {
     }
 }
 
+/**
+ * Exibe o menu de opções do chat
+ */
 function chatMenu(chat) {
     console.log('\nOpções:');
     console.log('1. Enviar mensagem');
@@ -252,6 +278,9 @@ function chatMenu(chat) {
     });
 }
 
+/**
+ * Envia uma mensagem para o chat atual
+ */
 async function sendMessageToChat(chat) {
     rl.question('\nDigite sua mensagem: ', async (content) => {
         try {
@@ -277,6 +306,9 @@ async function sendMessageToChat(chat) {
     });
 }
 
+/**
+ * Gerencia participantes de um grupo
+ */
 async function manageGroupParticipants(chat) {
     console.log('\n----- GERENCIAR PARTICIPANTES -----');
     console.log('\nOpções:');
@@ -302,6 +334,9 @@ async function manageGroupParticipants(chat) {
     });
 }
 
+/**
+ * Adiciona um participante ao grupo
+ */
 async function addParticipant(chat) {
     rl.question('\nDigite o nome de usuário para adicionar: ', async (username) => {
         try {
@@ -331,6 +366,9 @@ async function addParticipant(chat) {
     });
 }
 
+/**
+ * Remove um participante do grupo
+ */
 async function removeParticipant(chat) {
     console.log('\nParticipantes do grupo:');
 
@@ -371,6 +409,9 @@ async function removeParticipant(chat) {
     });
 }
 
+/**
+ * Cria um novo chat
+ */
 async function createNewChat() {
     console.log('\n----- CRIAR NOVO CHAT -----');
     console.log('\nOpções:');
@@ -396,6 +437,9 @@ async function createNewChat() {
     });
 }
 
+/**
+ * Cria um chat individual
+ */
 async function createIndividualChat() {
     rl.question('\nDigite o nome de usuário para iniciar o chat: ', async (username) => {
         try {
@@ -427,6 +471,9 @@ async function createIndividualChat() {
     });
 }
 
+/**
+ * Cria um chat em grupo
+ */
 async function createGroupChat() {
     rl.question('\nNome do grupo: ', (name) => {
         console.log('\nDigite os nomes de usuário para adicionar ao grupo (separados por vírgula):');
@@ -435,6 +482,7 @@ async function createGroupChat() {
                 const usernameList = usernames.split(',').map(u => u.trim());
                 const participants = [currentUser._id];
 
+                // Buscar usuários
                 for (const username of usernameList) {
                     const result = await chatLib.findUserByUsername(username);
                     if (result.success) {
@@ -472,6 +520,9 @@ async function createGroupChat() {
     });
 }
 
+/**
+ * Busca um usuário pelo nome de usuário
+ */
 async function searchUser() {
     console.log('\n----- BUSCAR USUÁRIO -----');
 
@@ -517,6 +568,9 @@ async function searchUser() {
     });
 }
 
+/**
+ * Atualiza o status do usuário atual
+ */
 async function updateStatus() {
     console.log('\n----- ATUALIZAR STATUS -----');
     console.log('\nOpções:');
@@ -569,6 +623,9 @@ async function updateStatus() {
     });
 }
 
+/**
+ * Mostra mensagens não lidas
+ */
 async function showUnreadMessages() {
     console.log('\n----- MENSAGENS NÃO LIDAS -----');
 
@@ -619,6 +676,9 @@ async function showUnreadMessages() {
     }
 }
 
+/**
+ * Faz logout do usuário atual
+ */
 async function logout() {
     try {
         await chatLib.updateUserStatus(currentUser._id, 'offline');
@@ -632,6 +692,9 @@ async function logout() {
     }
 }
 
+/**
+ * Encerra o programa
+ */
 async function exitProgram() {
     console.log('\nEncerrando o programa...');
 
@@ -655,6 +718,9 @@ async function exitProgram() {
     }
 }
 
+/**
+ * Função principal
+ */
 async function main() {
     try {
         console.log('Conectando ao banco de dados...');
@@ -667,4 +733,5 @@ async function main() {
     }
 }
 
+// Iniciar o programa
 main(); 
